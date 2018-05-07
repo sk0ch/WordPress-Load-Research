@@ -51,6 +51,7 @@ class WP_Load_Research {
 
 		// Include classes
 		include_once( 'classes/class.admin-page.php' );
+		include_once( 'classes/class.profiler.php' );
 	}
 
 	/**

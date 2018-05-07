@@ -10,9 +10,9 @@
 defined( 'ABSPATH' ) || die();
 
 /**
- * Class WordPress_View_Changelog_Class.
+ * Class WP_Load_Research_Admin_Page.
  */
-class WP_Load_Research_Admin_page extends WP_Load_Research {
+class WP_Load_Research_Admin_Page extends WP_Load_Research {
 
 	/**
 	 * Constructor
@@ -49,4 +49,4 @@ class WP_Load_Research_Admin_page extends WP_Load_Research {
 	}
 }
 
-new WP_Load_Research_Admin_page();
+new WP_Load_Research_Admin_Page();
