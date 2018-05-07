@@ -48,6 +48,9 @@ class WP_Load_Research {
 
 		// Setup plugin data
 		add_action( 'plugins_loaded', array( &$this, 'setup_plugin_data' ) );
+
+		// Include classes
+		include_once( 'classes/class.admin-page.php' );
 	}
 
 	/**
