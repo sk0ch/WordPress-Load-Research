@@ -31,6 +31,12 @@
 
 defined( 'ABSPATH' ) || die;
 
+if ( isset( $_GET['WP_Load_Research'] ) ) {
+	require_once( 'classes/class.profiler.php' );
+	error_log( 'test: ' . $_GET['WP_Load_Research'] );
+	declare( ticks = 1 );
+}
+
 /**
  * Init
  * */
@@ -46,12 +52,12 @@ class WP_Load_Research {
 	*/
 	function __construct() {
 
+		// Include classes
+		require_once( 'classes/class.admin-page.php' );
+
 		// Setup plugin data
 		add_action( 'plugins_loaded', array( &$this, 'setup_plugin_data' ) );
 
-		// Include classes
-		include_once( 'classes/class.admin-page.php' );
-		include_once( 'classes/class.profiler.php' );
 	}
 
 	/**
@@ -74,6 +80,19 @@ class WP_Load_Research {
 	 * @return void.
 	 */
 	public static function activation() {
+
+		// Create "mu-plugins" directory 
+		if ( ! file_exists( WPMU_PLUGIN_DIR ) && is_writable( dirname( WPMU_PLUGIN_DIR ) ) ) {
+			wp_mkdir_p( WPMU_PLUGIN_DIR );
+		}
+
+		// Create mu-plugin
+		if ( file_exists( WPMU_PLUGIN_DIR ) && is_writable( WPMU_PLUGIN_DIR ) ) {
+			if ( file_exists( WP_PLUGIN_DIR . '/wp-load-research/classes/class.profiler.php' ) ) {
+				file_put_contents( WPMU_PLUGIN_DIR . '/wp-load-research.php',
+					"<?php\n@include_once( WP_PLUGIN_DIR . '/wp-load-research/classes/class.profiler.php' );\n" );
+			}
+		}
 	}
 
 	/**
@@ -81,7 +100,14 @@ class WP_Load_Research {
 	 *
 	 * @return void.
 	 */
-	public static function uninstall() {
+	public static function deactivation() {
+		
+		// Remove mu-plugin
+		if ( file_exists( WPMU_PLUGIN_DIR . '/wp-load-research.php' ) ) {
+			if ( is_writable( WPMU_PLUGIN_DIR . '/wp-load-research.php' ) ) {
+				unlink( WPMU_PLUGIN_DIR . '/wp-load-research.php' );
+			}
+		}
 	}
 }
 
@@ -91,4 +117,4 @@ new WP_Load_Research();
 register_activation_hook( __FILE__, array( 'WP_Load_Research', 'activation' ) );
 
 // Uninstall hook
-register_uninstall_hook( __FILE__, array( 'WP_Load_Research', 'uninstall' ) );
+register_deactivation_hook( __FILE__, array( 'WP_Load_Research', 'deactivation' ) );
