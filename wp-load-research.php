@@ -65,7 +65,7 @@ class WP_Load_Research {
 	 *
 	 * @return void.
 	 */
-	public function setup_plugin_data() {
+	static function setup_plugin_data() {
 
 		// Load translate
 		load_plugin_textdomain( 'wp-load-research', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
@@ -79,7 +79,7 @@ class WP_Load_Research {
 	 *
 	 * @return void.
 	 */
-	public static function activation() {
+	static function activation() {
 
 		// Create "mu-plugins" directory 
 		if ( ! file_exists( WPMU_PLUGIN_DIR ) && is_writable( dirname( WPMU_PLUGIN_DIR ) ) ) {
@@ -100,7 +100,7 @@ class WP_Load_Research {
 	 *
 	 * @return void.
 	 */
-	public static function deactivation() {
+	static function deactivation() {
 		
 		// Remove mu-plugin
 		if ( file_exists( WPMU_PLUGIN_DIR . '/wp-load-research.php' ) ) {
