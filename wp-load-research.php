@@ -116,5 +116,5 @@ new WP_Load_Research();
 // Activation hook
 register_activation_hook( __FILE__, array( 'WP_Load_Research', 'activation' ) );
 
-// Uninstall hook
+// Deactivation hook
 register_deactivation_hook( __FILE__, array( 'WP_Load_Research', 'deactivation' ) );
